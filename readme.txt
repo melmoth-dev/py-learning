@@ -1,0 +1,1 @@
+pyinstaller -F <ָלÿ פאיכא>.py
