@@ -1,1 +1,1 @@
-pyinstaller -F <Èìÿ ôàéëà>.py
+pyinstaller -F <Ð˜Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð°>.py
