@@ -1,41 +1,52 @@
-#01.05.2020 15:00
+#04.05.2020 01:06
 import math
+
+# Задаём по условию значение, для которого будет вестись вычисление
+number = 600851475143
 
 primes = [2, 3]
 
-def nextPrime(curr):
+def isPrime(value):
+    '''Проверка простоты числа.'''
+    for x in primes:
+        if x > math.sqrt(value):                                                # Если проверяемый простой делитель больше корня заданного числа
+            return True                                                         # то заданное число - простое
+        elif value % x == 0:                                                    # Если заданное число делится без остатка на простое число
+            return False                                                        # то оно уже не простое
+    return True
+
+def nextPrime(primes):
     '''Получение следующего простого числа.'''
-    res = curr
+    res = primes[-1]
     while True:
         res += 2                                                                # Проверяем только нечётные числа
-        for x in primes:
-            if x > math.sqrt(res):                                              # Если простой делитель больше корня
-                return res                                                      # то имеем следующее простое число
-            if res % x == 0:                                                    # Если делится без остатка на простое число
-                break                                                           # то ищем дальше
+        if isPrime(res):
+            return res                                                          # то ищем дальше
 
-def maxPrimeFactor(value):
-    '''Поиск самого большого делителя числа, являющегося простым числом'''
+def calcPrimeFactors(value):
+    '''Получение всех простых делителей числа.'''
 
-    # Составляем список всех простых чисел до корня из заданного числа
-    i = len(primes) - 1
+    # Составляем список всех простых чисел до корня заданного числа
     while True:
-        x = nextPrime(primes[i])
+        x = nextPrime(primes)
         if x > math.sqrt(value):
             break
         primes.append(x)
-        i += 1
 
-    # Ищем наибольшее простое число, являющееся делителем заданного
-    i = len(primes) - 1
-    while True:
-        if i < 0 or value % primes[i] == 0:
-            break
-        i -= 1
+    # Ищем все простые числа из полученного списка, являющиеся делителем заданного
+    factors = [x for x in primes if value % x == 0]
 
-    if i < 0:                                                                   # Если среди простых чисел делителя не нашли
-        return value                                                            # то само число является простым
-    else:
-        return primes[i]
+    # Ищем последний простой делитель, который оказался больше корня заданного числа
+    n = value
+    for x in factors:
+        while n % x == 0:
+            n //= x
 
-print(maxPrimeFactor(600851475143))
+    if n > 1:                                                                   # Если такой делитель нашёлся
+        factors.append(n)                                                       # Добавляем его к списку
+
+    return(factors)
+
+primeFactors = calcPrimeFactors(number)                                         # Список всех простых делителей числа
+
+print(max(primeFactors))
