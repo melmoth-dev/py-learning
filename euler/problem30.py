@@ -2,11 +2,13 @@
 
 power = 5                                                                       # Заданная степень
 
-def digitPowersSum(value, power):
-    '''Получение суммы степений цифр числа.'''
-    digitsPowers = [int(c) ** power for c in str(value)]
-    return sum(digitsPowers)
+digitsPowers = [int(x) ** power for x in range(10)]                             # Список значений степеней всех цифр
 
-l = [x for x in range(11, 1000000) if digitPowersSum(x, power) == x]            # Список всех чисел, которые могут быть записаны в виде суммы пятых степеней их цифр
+def digitPowersSum(value):
+    '''Получение суммы степеней цифр числа.'''
+    powers = [digitsPowers[int(c)] for c in str(value)]
+    return sum(powers)
+
+l = [x for x in range(11, digitsPowers[9] * 10) if digitPowersSum(x) == x]      # Список всех чисел, которые могут быть записаны в виде суммы пятых степеней их цифр
 
 print(sum(l))                                                                   # Вывести сумму всех полученных чисел
